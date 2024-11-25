@@ -1,0 +1,105 @@
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../../../../assets/background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 20px;
+}
+
+.login-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  
+  .card-header {
+    background: transparent;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    
+    h3 {
+      margin: 0;
+      color: #2c3e50;
+      font-weight: 600;
+    }
+  }
+  
+  .card-body {
+    padding: 30px;
+  }
+}
+
+.form-control {
+  border-radius: 8px;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  transition: all 0.3s ease;
+  
+  &:focus {
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+    border-color: #4299e1;
+  }
+}
+
+.btn {
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  
+  &.btn-primary {
+    background: #4299e1;
+    border-color: #4299e1;
+    
+    &:hover:not(:disabled) {
+      background: #3182ce;
+      border-color: #3182ce;
+      transform: translateY(-1px);
+    }
+    
+    &:disabled {
+      background: #90cdf4;
+      border-color: #90cdf4;
+    }
+  }
+  
+  &.btn-outline-primary {
+    border-color: #4299e1;
+    color: #4299e1;
+    
+    &:hover:not(:disabled) {
+      background: #4299e1;
+      color: white;
+      transform: translateY(-1px);
+    }
+  }
+}
+
+.alert {
+  border-radius: 8px;
+  
+  &.alert-info {
+    background: rgba(66, 153, 225, 0.1);
+    border-color: rgba(66, 153, 225, 0.2);
+    color: #2b6cb0;
+  }
+}
+
+.google-btn-wrapper {
+  position: relative;
+  
+  img {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

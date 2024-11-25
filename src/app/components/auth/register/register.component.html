@@ -1,0 +1,230 @@
+<div class="register-container">
+  <div class="register-card">
+    <div class="card-header">
+      <h3 class="text-center">Inscription</h3>
+    </div>
+    <div class="card-body">
+      @if (errorMessage) {
+        <div class="alert alert-danger mb-4">
+          {{ errorMessage }}
+        </div>
+      }
+
+      @if (successMessage) {
+        <div class="alert alert-success mb-4">
+          {{ successMessage }}
+        </div>
+      }
+
+      <form (ngSubmit)="onRegister()" #registerForm="ngForm">
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="firstName" class="form-label">Prénom</label>
+            <input
+              type="text"
+              class="form-control"
+              id="firstName"
+              name="firstName"
+              [(ngModel)]="firstName"
+              required
+              #firstNameInput="ngModel"
+              [disabled]="isLoading"
+              placeholder="Entrez votre prénom"
+            >
+            @if (firstNameInput.invalid && (firstNameInput.dirty || firstNameInput.touched)) {
+              <div class="text-danger mt-1">
+                <small>Le prénom est requis</small>
+              </div>
+            }
+          </div>
+          <div class="col-md-6">
+            <label for="lastName" class="form-label">Nom</label>
+            <input
+              type="text"
+              class="form-control"
+              id="lastName"
+              name="lastName"
+              [(ngModel)]="lastName"
+              required
+              #lastNameInput="ngModel"
+              [disabled]="isLoading"
+              placeholder="Entrez votre nom"
+            >
+            @if (lastNameInput.invalid && (lastNameInput.dirty || lastNameInput.touched)) {
+              <div class="text-danger mt-1">
+                <small>Le nom est requis</small>
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            [(ngModel)]="email"
+            required
+            email
+            #emailInput="ngModel"
+            [disabled]="isLoading"
+            placeholder="Entrez votre email"
+          >
+          @if (emailInput.invalid && (emailInput.dirty || emailInput.touched)) {
+            <div class="text-danger mt-1">
+              @if (emailInput.errors?.['required']) {
+                <small>L'email est requis</small>
+              } @else if (emailInput.errors?.['email']) {
+                <small>Veuillez entrer un email valide</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label for="phoneNumber" class="form-label">Téléphone</label>
+          <input
+            type="tel"
+            class="form-control"
+            id="phoneNumber"
+            name="phoneNumber"
+            [(ngModel)]="phoneNumber"
+            required
+            #phoneNumberInput="ngModel"
+            [disabled]="isLoading"
+            placeholder="Entrez votre numéro de téléphone"
+          >
+          @if (phoneNumberInput.invalid && (phoneNumberInput.dirty || phoneNumberInput.touched)) {
+            <div class="text-danger mt-1">
+              <small>Le numéro de téléphone est requis</small>
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label for="password" class="form-label">Mot de passe</label>
+          <div class="input-group">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              class="form-control"
+              id="password"
+              name="password"
+              [(ngModel)]="password"
+              required
+              minlength="6"
+              #passwordInput="ngModel"
+              [disabled]="isLoading"
+              placeholder="Entrez votre mot de passe"
+            >
+            <button class="btn btn-outline-secondary" type="button" (click)="showPassword = !showPassword">
+              <i class="bi" [class.bi-eye-fill]="!showPassword" [class.bi-eye-slash-fill]="showPassword"></i>
+            </button>
+          </div>
+          @if (passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)) {
+            <div class="text-danger mt-1">
+              @if (passwordInput.errors?.['required']) {
+                <small>Le mot de passe est requis</small>
+              } @else if (passwordInput.errors?.['minlength']) {
+                <small>Le mot de passe doit contenir au moins 6 caractères</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-4">
+          <label for="confirmPassword" class="form-label">Confirmer le mot de passe</label>
+          <div class="input-group">
+            <input
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              class="form-control"
+              id="confirmPassword"
+              name="confirmPassword"
+              [(ngModel)]="confirmPassword"
+              required
+              #confirmPasswordInput="ngModel"
+              [disabled]="isLoading"
+              placeholder="Confirmez votre mot de passe"
+            >
+            <button class="btn btn-outline-secondary" type="button" (click)="showConfirmPassword = !showConfirmPassword">
+              <i class="bi" [class.bi-eye-fill]="!showConfirmPassword" [class.bi-eye-slash-fill]="showConfirmPassword"></i>
+            </button>
+          </div>
+          @if (confirmPasswordInput.invalid && (confirmPasswordInput.dirty || confirmPasswordInput.touched)) {
+            <div class="text-danger mt-1">
+              <small>La confirmation du mot de passe est requise</small>
+            </div>
+          }
+        </div>
+
+        <div class="d-grid gap-3">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="isLoading || !registerForm.form.valid"
+          >
+            @if (isLoading) {
+              <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              Inscription en cours...
+            } @else {
+              S'inscrire
+            }
+          </button>
+
+          <div class="social-login mb-3">
+            <button type="button" class="btn btn-outline-primary w-100 mb-2" (click)="loginWithGoogle()">
+              <i class="bi bi-google me-2"></i>Se connecter avec Google
+            </button>
+            <button type="button" id="phone-sign-in" class="btn btn-outline-success w-100" (click)="startPhoneSignIn()">
+              <i class="bi bi-telephone me-2"></i>Se connecter avec le téléphone
+            </button>
+          </div>
+
+          <div class="separator">
+            <span>ou</span>
+          </div>
+
+          <!-- Modal pour la vérification du téléphone -->
+          <div class="modal fade" id="phoneVerificationModal" tabindex="-1" aria-labelledby="phoneVerificationModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="phoneVerificationModalLabel">Vérification du numéro de téléphone</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div *ngIf="!codeSent">
+                    <div class="mb-3">
+                      <label for="phoneNumber" class="form-label">Numéro de téléphone</label>
+                      <input type="tel" class="form-control" id="phoneNumber" [(ngModel)]="phoneNumber" placeholder="+33612345678">
+                    </div>
+                    <button class="btn btn-primary" (click)="sendVerificationCode()">
+                      Envoyer le code
+                    </button>
+                  </div>
+                  <div *ngIf="codeSent">
+                    <div class="mb-3">
+                      <label for="verificationCode" class="form-label">Code de vérification</label>
+                      <input type="text" class="form-control" id="verificationCode" [(ngModel)]="verificationCode" placeholder="123456">
+                    </div>
+                    <button class="btn btn-primary" (click)="verifyCode()">
+                      Vérifier le code
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-center">
+            <p class="mb-0">
+              Déjà inscrit ?
+              <a routerLink="/login" class="text-primary text-decoration-none">Connectez-vous</a>
+            </p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,125 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="card-header">
+      <h3 class="text-center">Connexion</h3>
+    </div>
+    <div class="card-body">
+      <div class="alert alert-info mb-4">
+        <h5 class="mb-2">Comptes disponibles :</h5>
+        <ul class="mb-0">
+          <li>Admin : lassanagary300&#64;gmail.com</li>
+          <li>Utilisateur : battifrance0&#64;gmail.com</li>
+        </ul>
+      </div>
+
+      @if (errorMessage) {
+        <div class="alert alert-danger mb-4">
+          {{ errorMessage }}
+        </div>
+      }
+
+      @if (successMessage) {
+        <div class="alert alert-success mb-4">
+          {{ successMessage }}
+        </div>
+      }
+
+      <form (ngSubmit)="onLogin(loginForm)" #loginForm="ngForm">
+        <div class="mb-4">
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            [(ngModel)]="email"
+            required
+            email
+            [disabled]="isLoading"
+            #emailInput="ngModel"
+            placeholder="Entrez votre email"
+          >
+          @if (emailInput.invalid && (emailInput.dirty || emailInput.touched)) {
+            <div class="text-danger mt-2">
+              @if (emailInput.errors?.['required']) {
+                <small>L'email est requis</small>
+              } @else if (emailInput.errors?.['email']) {
+                <small>Veuillez entrer un email valide</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-4">
+          <label for="password" class="form-label">Mot de passe</label>
+          <div class="input-group">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              class="form-control"
+              id="password"
+              name="password"
+              [(ngModel)]="password"
+              required
+              [disabled]="isLoading"
+              #passwordInput="ngModel"
+              placeholder="Entrez votre mot de passe"
+            >
+            <button class="btn btn-outline-secondary" type="button" (click)="showPassword = !showPassword">
+              <i class="bi" [class.bi-eye-fill]="!showPassword" [class.bi-eye-slash-fill]="showPassword"></i>
+            </button>
+          </div>
+          @if (passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)) {
+            <div class="text-danger mt-2">
+              <small>Le mot de passe est requis</small>
+            </div>
+          }
+          <div class="mt-2">
+            <a href="javascript:void(0)" 
+               (click)="onResetPassword()" 
+               [class.disabled]="isResettingPassword"
+               class="text-primary text-decoration-none">
+              @if (isResettingPassword) {
+                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                Envoi en cours...
+              } @else {
+                Mot de passe oublié ?
+              }
+            </a>
+          </div>
+        </div>
+
+        <div class="d-grid gap-3">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="isLoading || !loginForm.form.valid"
+          >
+            @if (isLoading) {
+              <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              Connexion en cours...
+            } @else {
+              Se connecter
+            }
+          </button>
+
+          <div class="google-btn-wrapper">
+            <button
+              type="button"
+              class="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-2"
+              (click)="onGoogleLogin()"
+              [disabled]="isLoading"
+            >
+              <i class="bi bi-google" style="font-size: 1.2rem;"></i>
+              @if (isLoading) {
+                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                Connexion en cours...
+              } @else {
+                Se connecter avec Google
+              }
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
